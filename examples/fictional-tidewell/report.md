@@ -16,7 +16,7 @@ Tidewell sells a subscription tide and mooring alert service to small-harbour bo
 
 ## Verdict
 
-The deck's market figure counts every registered leisure boat in the region as a customer, while the product only serves owners with a monitored mooring. Rebuilt from the deck's own assumptions, the serviceable market supports the conservative scenario but not the stated year-three revenue. The team and pricing claims hold up; the growth claims do not.
+The deck's market figure counts every registered leisure boat in the region as a customer, while the product only serves owners with a monitored mooring. Rebuilt from the deck's own assumptions, the serviceable market supports the conservative scenario but not the stated year-three revenue. The pricing claim holds up, the team claim could not be verified, and the growth claims do not hold.
 
 ## Market sizing
 

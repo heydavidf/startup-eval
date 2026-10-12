@@ -22,7 +22,7 @@ Decks are confidential by default. The skill instructs the agent to use the publ
 
 ## See the output first
 
-The [fictional Tidewell example](examples/fictional-tidewell/README.md) is a complete run directory for an invented company. Open `examples/fictional-tidewell/dashboard.html` in a browser. Simple view shows the verdict, score, market table, scenarios, and risks; Advanced (button or the `A` key) expands the full claim register, evidence register, and agent log. It is **synthetic**: no real company, market, or source is described.
+The [fictional Tidewell example](examples/fictional-tidewell/README.md) is a complete run directory for an invented company. Open `examples/fictional-tidewell/dashboard.html` in a browser. Simple view shows the verdict, score, market table, scenarios, and risks; Advanced (button or the `A` key) expands the full claim register, the evidence register, the score rationales, and a run summary with the number of agents dispatched and failures recorded. It is **synthetic**: no real company, market, or source is described.
 
 To exercise the scripts offline against a scratch library:
 
@@ -56,7 +56,7 @@ The method, agent contracts, and artifact formats are in [references/](reference
 
 This is a diligence procedure, not a source of market facts or investment advice. Verdicts depend on what the agent can find on the public web on the day; paywalls, private companies, and missing data produce `uncertain` and `unverified` results by design. Scores are a structured opinion, not a prediction. Calibrate the skeptics over several runs before trusting the refute rate.
 
-Tested on macOS with Python 3.14 and Poppler 25; the scripts use only the standard library and should run on Linux. Live multi-agent runs were exercised with Claude Code; other agent hosts can read the Markdown but have not been tested.
+Tested on macOS with Python 3.14.5 and Poppler 26.02.0; the scripts use only the standard library and should run on Linux. Live multi-agent runs were exercised with Claude Code; other agent hosts can read the Markdown but have not been tested.
 
 To update, replace the installed skill folder with a newer copy; your evaluation library lives elsewhere and is untouched. To uninstall, remove the installed folder; the library remains. Report defects through the repository's issue tracker.
 

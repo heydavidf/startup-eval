@@ -69,6 +69,6 @@ Each source requires: `id`, `title`, `url`, `published`, `accessed`, `quality` (
 
 - Simple is the default view.
 - Simple shows summary, verdict, score, decisive evidence, market reality, scenarios, and top risks.
-- Advanced expands claim details, evidence register, dimension rationales, methodology, and agent/failure information inline.
+- Advanced expands claim details, evidence register, dimension rationales, and a method summary with agent and failure counts inline. The full agent and failure log lives in `run-manifest.json`.
 - Buttons and the `A` key switch view. Switching to Advanced scrolls the first newly revealed section into view only when triggered by the Advanced button; keyboard toggling does not force a scroll.
 - The file is self-contained and requires no network resources.
