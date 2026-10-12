@@ -1,0 +1,4 @@
+interface:
+  display_name: "Startup Evaluation"
+  short_description: "Multi-agent startup pitch diligence"
+  default_prompt: "Use $startup-eval to evaluate a startup pitch deck with adaptive multi-agent diligence."

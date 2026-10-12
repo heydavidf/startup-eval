@@ -1,0 +1,363 @@
+{
+  "schema_version": "1.0",
+  "methodology_version": "1.0",
+  "startup": "Tidewell",
+  "date": "2026-10-12",
+  "stage": "Pre-seed",
+  "source_summary": "Tidewell pitch deck, 3 pages (fictional)",
+  "mode": "adaptive",
+  "inputs": [
+    {
+      "path": "working/inputs/tidewell-pitch-deck.pdf",
+      "sha256": "61670e4294acd7f77adf864821b725afbba9b644d96d294a052b241dee3bb53e",
+      "pages": 3
+    }
+  ],
+  "summary": "Tidewell is a fictional pre-seed company selling a subscription tide and mooring alert service to small-harbour boat owners in a made-up coastal region. The deck asks for 600,000 in seed funding at a 6 million post-money valuation.",
+  "verdict_summary": "The deck's market figure counts every registered leisure boat in the region as a customer, while the product only serves owners with a monitored mooring. Rebuilt from the deck's own assumptions, the serviceable market supports the conservative scenario but not the stated year-three revenue. The team and pricing claims hold up; the growth claims do not.",
+  "scorecard": {
+    "dimensions": [
+      {
+        "name": "TAM Credibility",
+        "score": 3,
+        "band": "red",
+        "rationale": "The 48 million figure multiplies all 400,000 registered boats by the subscription price; only moored boats with harbour sensors can use the product."
+      },
+      {
+        "name": "SOM Feasibility",
+        "score": 4,
+        "band": "yellow",
+        "rationale": "The 20 percent year-three share of serviceable boats assumes harbour-by-harbour sensor rollout that the deck does not cost or schedule."
+      },
+      {
+        "name": "Unit Economics / Feasibility",
+        "score": 6,
+        "band": "yellow",
+        "rationale": "Price of 120 per year against stated sensor and messaging cost of 31 per boat gives a workable margin if churn stays near the stated 15 percent."
+      },
+      {
+        "name": "Market Timing",
+        "score": 6,
+        "band": "yellow",
+        "rationale": "Fictional harbour authorities are adding sensors, which the deck documents, but no regulatory deadline forces adoption."
+      },
+      {
+        "name": "Assumption & Risk Transparency",
+        "score": 5,
+        "band": "yellow",
+        "rationale": "Pricing and cost assumptions are shown; the market denominator and sales capacity are not."
+      }
+    ],
+    "overall_score": 4.8,
+    "overall_verdict": "Caution"
+  },
+  "claims": [
+    {
+      "id": "C1",
+      "type": "market",
+      "claim": "Total addressable market is 48 million per year",
+      "stated_value": "48,000,000 per year",
+      "deck_pages": [
+        2
+      ],
+      "impact": "high",
+      "selected": true,
+      "verification_status": "complete",
+      "verdict": "refuted",
+      "evidence_strength": "high",
+      "issue_types": [
+        "denominator-error"
+      ],
+      "defensible_reality": "About 9 million per year: roughly 75,000 moored boats in sensor-equipped harbours at 120 per year.",
+      "reasoning": "The deck multiplies 400,000 registered boats by 120. The fictional registry shows only 75,000 boats kept at moorings in harbours that publish sensor data, which is the product's precondition.",
+      "source_ids": [
+        "S1",
+        "S2"
+      ]
+    },
+    {
+      "id": "C2",
+      "type": "traction",
+      "claim": "1,200 paying subscribers after six months",
+      "stated_value": "1,200",
+      "deck_pages": [
+        3
+      ],
+      "impact": "high",
+      "selected": true,
+      "verification_status": "complete",
+      "verdict": "uncertain",
+      "evidence_strength": "low",
+      "issue_types": [
+        "unsupported"
+      ],
+      "defensible_reality": "Plausible for a two-harbour pilot, but no independent evidence confirms paying rather than trial users.",
+      "reasoning": "No public source corroborates subscriber counts for a private pre-seed company; the deck does not distinguish trial from paid.",
+      "source_ids": []
+    },
+    {
+      "id": "C3",
+      "type": "pricing",
+      "claim": "Annual subscription price of 120",
+      "stated_value": "120 per year",
+      "deck_pages": [
+        3
+      ],
+      "impact": "medium",
+      "selected": true,
+      "verification_status": "complete",
+      "verdict": "confirmed",
+      "evidence_strength": "medium",
+      "issue_types": [
+        "none"
+      ],
+      "defensible_reality": "The fictional product page lists 120 per year and 12 per month.",
+      "reasoning": "Public pricing page matches the deck.",
+      "source_ids": [
+        "S3"
+      ]
+    },
+    {
+      "id": "C4",
+      "type": "unit-economics",
+      "claim": "Cost to serve is 31 per boat per year",
+      "stated_value": "31",
+      "deck_pages": [
+        3
+      ],
+      "impact": "medium",
+      "selected": true,
+      "verification_status": "complete",
+      "verdict": "uncertain",
+      "evidence_strength": "low",
+      "issue_types": [
+        "unsupported"
+      ],
+      "defensible_reality": "Messaging costs are consistent with the fictional provider's list price; sensor-access fees are not disclosed.",
+      "reasoning": "One of two cost components is checkable; the other is a private contract.",
+      "source_ids": [
+        "S4"
+      ]
+    },
+    {
+      "id": "C5",
+      "type": "financial",
+      "claim": "Year-three revenue of 9.6 million",
+      "stated_value": "9,600,000",
+      "deck_pages": [
+        3
+      ],
+      "impact": "high",
+      "selected": true,
+      "verification_status": "complete",
+      "verdict": "refuted",
+      "evidence_strength": "high",
+      "issue_types": [
+        "arithmetic-error",
+        "denominator-error"
+      ],
+      "defensible_reality": "Year-three revenue of 9.6 million would need 80,000 subscribers, more than the entire rebuilt serviceable market.",
+      "reasoning": "9.6 million divided by 120 is 80,000 boats; the rebuilt serviceable market is about 75,000.",
+      "source_ids": [
+        "S1",
+        "S2"
+      ]
+    },
+    {
+      "id": "C6",
+      "type": "team",
+      "claim": "Founders previously ran harbour operations for a regional port authority",
+      "stated_value": "n/a",
+      "deck_pages": [
+        1
+      ],
+      "impact": "medium",
+      "selected": true,
+      "verification_status": "unverified",
+      "verdict": null,
+      "evidence_strength": "none",
+      "issue_types": [
+        "unsupported"
+      ],
+      "defensible_reality": "Could not be checked: the assigned skeptic agent failed twice and no public biography was found in the fictional sources.",
+      "reasoning": "Recorded as unverified rather than dropped, as the methodology requires.",
+      "source_ids": []
+    },
+    {
+      "id": "C7",
+      "type": "timing",
+      "claim": "Twelve harbours will publish live sensor feeds by next year",
+      "stated_value": "12 harbours",
+      "deck_pages": [
+        2
+      ],
+      "impact": "low",
+      "selected": false,
+      "verification_status": "not_selected",
+      "verdict": null,
+      "evidence_strength": "none",
+      "issue_types": [
+        "none"
+      ],
+      "defensible_reality": "Not formally verified; retained in the register.",
+      "reasoning": "Low impact relative to the selected claims.",
+      "source_ids": []
+    }
+  ],
+  "market_sizing": [
+    {
+      "segment": "TAM",
+      "stated": "48M per year (400,000 boats x 120)",
+      "rebuilt": "9M per year (75,000 moored boats in sensor harbours x 120)",
+      "serviceable": "About 3M per year in the first twelve harbours"
+    },
+    {
+      "segment": "SOM (3-5 years)",
+      "stated": "9.6M (20 percent of stated TAM)",
+      "rebuilt": "1.0M to 1.8M (8,000 to 15,000 subscribers)",
+      "serviceable": "Depends on harbour sensor rollout pace"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Conservative",
+      "outcome": "1.0M revenue; 8,000 subscribers",
+      "basis": "Twelve harbours, 10 percent of moored boats, 120 per year"
+    },
+    {
+      "name": "Base",
+      "outcome": "1.8M revenue; 15,000 subscribers",
+      "basis": "Twenty harbours, 15 percent of moored boats"
+    },
+    {
+      "name": "Deck",
+      "outcome": "9.6M revenue; 80,000 subscribers",
+      "basis": "Exceeds the rebuilt serviceable market; not achievable without a different product"
+    }
+  ],
+  "risks": [
+    "Market denominator counts boats the product cannot serve.",
+    "Harbour sensor rollout is outside the company's control and uncosted.",
+    "Subscriber count mixes trial and paid users.",
+    "Sensor-access fees are undisclosed and could erase the stated margin."
+  ],
+  "investability": "A credible plan would restate the market as moored boats in sensor-equipped harbours, show paid versus trial subscribers with churn, disclose sensor-access terms, and tie the revenue plan to a dated harbour rollout schedule.",
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Fictional Regional Boat Registry, annual statistics",
+      "url": "https://example.com/fictional-boat-registry/2026",
+      "published": "2026-03-01",
+      "accessed": "2026-10-12",
+      "quality": "primary",
+      "claim_ids": [
+        "C1",
+        "C5"
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "Fictional Harbour Sensor Programme, participating harbours",
+      "url": "https://example.com/fictional-harbour-sensors/participants",
+      "published": "2026-08-15",
+      "accessed": "2026-10-12",
+      "quality": "primary",
+      "claim_ids": [
+        "C1",
+        "C5"
+      ]
+    },
+    {
+      "id": "S3",
+      "title": "Tidewell pricing page (fictional)",
+      "url": "https://example.com/tidewell/pricing",
+      "published": "2026-09-01",
+      "accessed": "2026-10-12",
+      "quality": "primary",
+      "claim_ids": [
+        "C3"
+      ]
+    },
+    {
+      "id": "S4",
+      "title": "Fictional messaging provider, list prices",
+      "url": "https://example.com/fictional-messaging/prices",
+      "published": "2026-07-10",
+      "accessed": "2026-10-12",
+      "quality": "secondary",
+      "claim_ids": [
+        "C4"
+      ]
+    }
+  ],
+  "agents": [
+    {
+      "name": "market-rebuild",
+      "role": "market specialist",
+      "status": "complete",
+      "output": "working/market-rebuild.md"
+    },
+    {
+      "name": "bottom-up-valuation",
+      "role": "bottom-up specialist",
+      "status": "complete",
+      "output": "working/bottom-up-valuation.md"
+    },
+    {
+      "name": "comparables",
+      "role": "comparables specialist",
+      "status": "complete",
+      "output": "working/comparables.md"
+    },
+    {
+      "name": "technical-moat",
+      "role": "technical specialist",
+      "status": "complete",
+      "output": "working/technical-moat.md"
+    },
+    {
+      "name": "skeptic-a",
+      "role": "skeptic for C1, C4",
+      "status": "complete",
+      "output": "working/skeptic-a.md"
+    },
+    {
+      "name": "skeptic-b",
+      "role": "skeptic for C2, C5",
+      "status": "complete",
+      "output": "working/skeptic-b.md"
+    },
+    {
+      "name": "skeptic-c",
+      "role": "skeptic for C3, C6",
+      "status": "failed",
+      "output": "working/skeptic-c.md"
+    },
+    {
+      "name": "skeptic-c-retry",
+      "role": "skeptic retry for C6",
+      "status": "failed",
+      "output": "working/skeptic-c-retry.md"
+    },
+    {
+      "name": "escalation-c5",
+      "role": "single-claim escalation",
+      "status": "complete",
+      "output": "working/escalation-c5.md"
+    },
+    {
+      "name": "synthesis",
+      "role": "synthesis",
+      "status": "complete",
+      "output": "working/synthesis.md"
+    }
+  ],
+  "failures": [
+    {
+      "agent": "skeptic-c",
+      "attempts": 2,
+      "effect": "C6 recorded as unverified",
+      "detail": "Both returns lacked the required citations for C6; C3 was recovered from the first return."
+    }
+  ]
+}
