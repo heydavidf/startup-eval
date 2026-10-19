@@ -14,22 +14,22 @@ Inside `skills/startup-eval/` (installed with the skill):
 At the repository root (not installed):
 
 - `examples/fictional-tidewell/`: a complete synthetic run. `build_example.py` regenerates its PDF and dashboard deterministically.
-- `tests/`: standard-library `unittest` tests. `test_layout.py` guards the `skills/<name>/` layout that `gh skill` needs; `test_scripts.py` compiles every Python file and runs the offline script pipeline from a temporary copy of the skill folder.
-- `.github/workflows/ci.yml`: runs the checks below on every push to `main`, on pull requests and weekly. `.github/tripwire.sh` catches personal paths, junk files, evaluation-library content and silenced checks. `.github/dependabot.yml` keeps the pinned actions current.
+- `tests/`: standard-library `unittest` tests. `test_layout.py` guards the `skills/<name>/` layout that `gh skill` needs; `test_scripts.py` compiles every Python file and runs the offline script pipeline from a temporary copy of the skill folder; `test_tripwire.py` exercises `.github/tripwire.sh` in a throwaway Git repository.
+- `.github/workflows/ci.yml`: runs the checks below on every push to `main`, on pull requests and weekly, and repeats the tests on Python 3.11, the stated minimum. `.github/tripwire.sh` catches personal paths, junk files, evaluation-library folders, deck files outside `examples/` and silenced checks. `.github/dependabot.yml` keeps the pinned actions current.
 - `README.md` (users), `CHANGELOG.md` (one entry per release), `CONTRIBUTING.md`, `SECURITY.md`, `LICENSE`.
 
 ## Checks
 
-Run from the repository root. You need Python 3.11+, Git and Poppler; ruff and the skill validator run in throwaway environments. CI runs the same commands plus gitleaks (secrets) and lychee (links).
+Run from the repository root. You need Python 3.11+, Git, Poppler and pipx (for ruff); ruff and the skill validator run in throwaway environments. CI runs the same commands plus gitleaks (secrets) and lychee (links).
 
 ```sh
 python3 -B -m unittest discover -s tests -v
 python3 examples/fictional-tidewell/build_example.py
 git status --short -- examples/   # must print nothing: a rebuild leaves the committed example unchanged
 python3 skills/startup-eval/scripts/validate_evaluation.py examples/fictional-tidewell
-bash .github/tripwire.sh origin/main   # compare against the branch you will merge into
-pipx run --spec ruff==0.17.1 ruff check .
-pipx run --spec ruff==0.17.1 ruff format --check .
+bash .github/tripwire.sh origin/main   # compare against the branch you will merge into; fails if that ref is missing
+pipx run --spec ruff==0.17.1 ruff check --no-cache .
+pipx run --spec ruff==0.17.1 ruff format --no-cache --check .
 ```
 
 The tests already run the README's scratch-library sequence (`init_library`, `create_run`, `prepare_pdf`, `render_dashboard`, `validate_evaluation`, `update_registry`) against a temporary library and check `INDEX.md` and `CALIBRATION_LOG.md`.
@@ -42,7 +42,7 @@ python3 -m venv "${TMPDIR:-/tmp}/startup-eval-validator"
 "${TMPDIR:-/tmp}/startup-eval-validator/bin/skills-ref" validate skills/startup-eval
 ```
 
-With GitHub CLI 2.100 or later, `gh skill publish --dry-run .` checks that `gh skill` can discover and validate the skill. Use it only with `--dry-run`: without it the command publishes a GitHub release.
+With GitHub CLI 2.100 or later, `gh skill publish --dry-run .` checks that `gh skill` can discover and validate the skill. It only validates in a clone whose `origin` is the GitHub repository; without a GitHub remote it prints a warning and checks nothing. Use it only with `--dry-run`: without it the command publishes a GitHub release.
 
 ## Working rules
 
@@ -54,10 +54,10 @@ With GitHub CLI 2.100 or later, `gh skill publish --dry-run .` checks that `gh s
 
 ## Change constraints
 
-- Keep the manifest schema, validator, dashboard template, and `skills/startup-eval/references/artifact-contract.md` in step. If you add a manifest field, update the contract and the validator together and rebuild the example.
+- Keep the manifest schema, validator, dashboard template, and `skills/startup-eval/references/artifact-contract.md` in step. If you add a manifest field, update the contract and the validator together (add it to the validator's `required` set only if every run must have it), show it from `render_dashboard.py` if it belongs on the dashboard, add it to `examples/fictional-tidewell/run-manifest.json`, and rebuild the example.
 - Scores map to bands deterministically (`validate_evaluation.py:band`). Do not change thresholds without a methodology version bump.
 - Never drop a claim: unverified and not-selected claims must stay in the manifest and the register.
 - The dashboard must stay self-contained with no network resources, and must keep the `bSimple`/`bAdv` buttons and the `A` shortcut that the validator checks for.
-- Everything the skill needs at runtime stays inside `skills/startup-eval/`. Links in its Markdown must not point outside that folder, because installed copies contain nothing else (`tests/test_layout.py` enforces this).
-- No absolute paths, personal names, or real-company data in the package. Example content stays fictional with `example.com` sources. Never commit a real deck or a run folder.
+- Everything the skill needs at runtime stays inside `skills/startup-eval/`. Relative links in its Markdown must not point outside that folder, because installed copies contain nothing else (`tests/test_layout.py` enforces this); use a full `https://` link for anything in the wider repository.
+- No absolute file paths, private or client names, or real-company data in the package (the copyright line in `LICENSE` is the one intended name). Example content stays fictional with `example.com` sources. Never commit a real deck or a run folder.
 - Record every user-visible change in `CHANGELOG.md`.
