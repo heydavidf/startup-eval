@@ -1,3 +1,7 @@
 __pycache__/
 *.py[cod]
 .DS_Store
+
+# Evaluation library created by the scripts when run from this folder.
+# It holds confidential pitch decks and must never be committed.
+startup-evals/

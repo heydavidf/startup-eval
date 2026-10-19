@@ -40,7 +40,7 @@ Scripts live in this skill's `scripts/` directory; run them with `python3` from 
 9. Run `scripts/validate_evaluation.py`. Fix every error. Update `INDEX.md` and `CALIBRATION_LOG.md` only with `scripts/update_registry.py` after validation passes.
 10. Open the dashboard in a browser and test both buttons, the `A` shortcut, desktop layout, and mobile layout.
 
-The [fictional worked example](examples/fictional-tidewell/README.md) shows the finished run directory, manifest, and dashboard for an invented startup.
+The repository's [fictional worked example](https://github.com/heydavidf/startup-eval/tree/main/examples/fictional-tidewell) shows the finished run directory, manifest, and dashboard for an invented startup. It lives at the repository root, outside the installed skill folder.
 
 ## Depth modes
 

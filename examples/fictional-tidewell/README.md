@@ -18,7 +18,7 @@ From the repository root:
 
 ```sh
 python3 examples/fictional-tidewell/build_example.py
-python3 scripts/validate_evaluation.py examples/fictional-tidewell
+python3 skills/startup-eval/scripts/validate_evaluation.py examples/fictional-tidewell
 ```
 
 The first command regenerates the PDF and the dashboard byte-for-byte. The second should print `VALIDATION PASSED`. To exercise the full script pipeline against a scratch library, see the README at the repository root.

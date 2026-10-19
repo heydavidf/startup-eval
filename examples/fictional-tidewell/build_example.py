@@ -3,7 +3,7 @@
 
 Run from anywhere:  python3 examples/fictional-tidewell/build_example.py
 Everything produced is deterministic, so a rebuild should leave the committed files unchanged.
-Standard library only. Rendering the PDF to images (scripts/prepare_pdf.py) needs Poppler.
+Standard library only. Rendering the PDF to images (skills/startup-eval/scripts/prepare_pdf.py) needs Poppler.
 """
 
 from __future__ import annotations
@@ -14,7 +14,8 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SKILL_ROOT = HERE.parents[1]
+REPO_ROOT = HERE.parents[1]
+SKILL_ROOT = REPO_ROOT / "skills" / "startup-eval"
 RENDER = SKILL_ROOT / "scripts" / "render_dashboard.py"
 
 PAGES = [
@@ -111,7 +112,7 @@ def main() -> int:
     if not manifest.is_file():
         raise SystemExit(f"Missing {manifest}; this example needs its run-manifest.json to render the dashboard")
     if not RENDER.is_file():
-        raise SystemExit(f"Missing {RENDER}; run this script from a complete copy of the startup-eval skill")
+        raise SystemExit(f"Missing {RENDER}; run this script from a complete clone of the startup-eval repository")
     subprocess.run([sys.executable, str(RENDER), str(manifest), "--output", str(HERE / "dashboard.html")], check=True)
     return 0
 
