@@ -2,7 +2,7 @@
 name: startup-eval
 description: Evaluate startup pitch decks and supporting diligence materials with a multi-agent workflow. Use for investor-style market-opportunity analysis, TAM/SAM/SOM rebuilding, bottom-up revenue and valuation checks, comparables, technical or regulatory plausibility, claim verification, investment scorecards, and presentation dashboards from PDF or other pitch materials.
 license: MIT
-compatibility: Requires an agent that can run subagents in parallel, browse the public web, run Python 3.11+ scripts, and write local files. PDF intake needs Poppler (pdfinfo, pdftotext, pdftoppm) on PATH. The bundled fictional example can be inspected offline.
+compatibility: Requires an agent that can run subagents in parallel, browse the public web, run Python 3.11+ scripts, and write local files. PDF intake needs Poppler (pdfinfo, pdftotext, pdftoppm) on PATH. The source repository's fictional worked example can be inspected offline.
 ---
 
 # Startup Evaluation

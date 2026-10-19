@@ -59,7 +59,7 @@ class LayoutTest(unittest.TestCase):
                 self.assertLessEqual(len(name), 64)
 
     def test_no_skill_md_at_repository_root(self):
-        # gh skill ignores a root SKILL.md, and a second copy would drift from the real one.
+        # gh skill install from GitHub does not discover a root SKILL.md, and a second copy would drift.
         self.assertFalse(
             (REPO / "SKILL.md").exists(),
             "SKILL.md belongs in skills/<name>/, not at the root",

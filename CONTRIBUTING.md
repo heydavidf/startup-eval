@@ -9,7 +9,7 @@ Do not attach a real pitch deck, a run folder, or text copied from one to an iss
 ## Before you open a pull request
 
 1. Open an issue first for anything larger than a small fix, so we can agree on the approach.
-2. Run the checks listed in [AGENTS.md](AGENTS.md) (the same commands CI runs in `.github/workflows/ci.yml`). They must pass. You need Python 3.11 or later, Git and Poppler.
+2. Run the checks listed in [AGENTS.md](AGENTS.md) (the same commands CI runs in `.github/workflows/ci.yml`). They must pass. You need Python 3.11 or later, Git, Poppler and pipx (for ruff).
 3. A bug fix should come with a test in `tests/` that fails before the fix and passes after it.
 4. Keep the change focused: one problem per pull request.
 5. Keep everything the skill needs at runtime inside `skills/startup-eval/`, and keep the example fictional.

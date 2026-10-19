@@ -10,11 +10,16 @@ set -uo pipefail
 fail=0
 report() { printf '%s\n' "$1"; fail=1; }
 
-# 1. Files that should never be tracked, including anything inside an evaluation library (real decks).
-junk='(^|/)(\.env|\.env\.local|\.DS_Store|.*\.pyc|settings\.local\.json)$|(^|/)(__pycache__|node_modules|\.grok|\.venv|venv|startup-evals)/'
+# 1. Files that should never be tracked, including anything from an evaluation library (real decks).
+junk='(^|/)(\.env|\.env\.local|\.DS_Store|.*\.pyc|settings\.local\.json)$|(^|/)(__pycache__|node_modules|\.grok|\.venv|venv|startup-evals|Inbox|Evaluations)/'
 tracked_junk=$(git ls-files | grep -E "$junk" | grep -v -E '(^|/)\.env\.example$' || true)
 [ -n "$tracked_junk" ] && report "Tracked files that should be ignored:
 $tracked_junk"
+
+# 1b. Deck-like files outside the fictional example: real pitch decks must never be committed.
+decks=$(git ls-files | grep -E -i '\.(pdf|pptx?|key|odp)$' | grep -v -E '^examples/' || true)
+[ -n "$decks" ] && report "Deck-like files outside examples/ (never commit a real deck):
+$decks"
 
 # 2. Personal paths and private words in tracked text files.
 pattern='/Users/[A-Za-z0-9._-]+|/home/[A-Za-z0-9._-]+|C:\\Users\\'
@@ -27,9 +32,16 @@ $personal"
 if [ $# -ge 1 ]; then
   base="$1"
   silenced='# *noqa|# *type: *ignore|eslint-disable|@ts-ignore|@ts-expect-error|@ts-nocheck|biome-ignore|\bas any\b|pytest\.mark\.skip|pytest\.skip\(|unittest\.skip|\b(it|test|describe)\.skip\(|\bx(it|describe)\(|--no-verify'
-  added=$(git diff -U0 "$base"...HEAD -- . ':!.github/tripwire.sh' | grep -E '^\+[^+]' | grep -E "$silenced" | grep -v 'tripwire-allow' || true)
-  [ -n "$added" ] && report "New lines that silence a check (justify with tripwire-allow or remove):
+  # Fail closed: a base that cannot be compared must not look like "nothing silenced".
+  if ! git rev-parse --verify --quiet "$base^{commit}" >/dev/null; then
+    report "Base ref '$base' not found, so silenced checks were not scanned (fetch it first, e.g. git fetch origin main)."
+  elif ! diff_out=$(git diff -U0 "$base"...HEAD -- . ':!.github/tripwire.sh'); then
+    report "git diff against '$base' failed, so silenced checks were not scanned."
+  else
+    added=$(printf '%s\n' "$diff_out" | grep -E '^\+[^+]' | grep -E "$silenced" | grep -v 'tripwire-allow' || true)
+    [ -n "$added" ] && report "New lines that silence a check (justify with tripwire-allow or remove):
 $added"
+  fi
 fi
 
 [ "$fail" -eq 0 ] && echo "tripwire: clean"

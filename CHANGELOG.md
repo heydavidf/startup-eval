@@ -17,8 +17,8 @@ The first tagged release. The skill's method, scripts and output formats are unc
 
 - A copy of the licence inside the skill folder, so installed copies carry it.
 - `.gitignore` entry for `startup-evals/`, the default evaluation library, so a deck is not committed by accident when the scripts run inside a clone.
-- Automatic checks on every push, pull request and week (`.github/workflows/ci.yml`): ruff, tests, example rebuild, validator, Agent Skills spec, a tripwire for personal paths and silenced checks, secret scanning and link checking.
-- Tests that guard the `skills/` layout and run the offline script pipeline from a copy of the skill folder.
+- Automatic checks on every push, pull request and week (`.github/workflows/ci.yml`): ruff, tests (on Python 3.14 and 3.11), example rebuild, validator, Agent Skills spec, a tripwire for personal paths, committed decks and silenced checks, secret scanning and link checking.
+- Tests that guard the `skills/` layout, run the offline script pipeline from a copy of the skill folder, and exercise the tripwire.
 - `SECURITY.md`, `CONTRIBUTING.md`, Dependabot updates for the pinned actions, and working rules for coding agents in `AGENTS.md`.
 
 ## First public version (2026-10-12)
