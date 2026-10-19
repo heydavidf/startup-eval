@@ -1,0 +1,15 @@
+# Keeps the pinned action commits in .github/workflows/ci.yml up to date:
+# monthly, one grouped pull request, and only releases at least 7 days old.
+# The skill's helpers use only the Python standard library, so there are no other ecosystems to watch.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]
+    open-pull-requests-limit: 2
