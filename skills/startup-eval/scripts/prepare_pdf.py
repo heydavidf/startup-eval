@@ -45,7 +45,9 @@ def main() -> int:
     pdfinfo = require("pdfinfo")
     pdftotext = require("pdftotext")
     pdftoppm = require("pdftoppm")
-    info = subprocess.run([pdfinfo, str(pdf)], check=True, text=True, capture_output=True).stdout
+    info = subprocess.run(
+        [pdfinfo, str(pdf)], check=True, text=True, capture_output=True
+    ).stdout
     pages = 0
     for line in info.splitlines():
         if line.startswith("Pages:"):
@@ -58,7 +60,9 @@ def main() -> int:
     text_path = inputs / f"{stem}.txt"
     subprocess.run([pdftotext, "-layout", str(pdf), str(text_path)], check=True)
     prefix = rendered / stem
-    subprocess.run([pdftoppm, "-jpeg", "-r", str(args.dpi), str(pdf), str(prefix)], check=True)
+    subprocess.run(
+        [pdftoppm, "-jpeg", "-r", str(args.dpi), str(pdf), str(prefix)], check=True
+    )
     images = sorted(rendered.glob(f"{stem}-*.jpg"))
     if len(images) != pages:
         raise SystemExit(f"Rendered {len(images)} pages, expected {pages}")
