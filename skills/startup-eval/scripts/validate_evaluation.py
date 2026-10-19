@@ -9,7 +9,6 @@ import math
 import re
 from pathlib import Path
 
-
 REQUIRED_FILES = [
     "source-brief.md",
     "claim-register.md",
@@ -63,10 +62,25 @@ def validate(run_dir: Path) -> list[str]:
         return errors + [f"Invalid manifest JSON: {exc}"]
 
     required = {
-        "schema_version", "methodology_version", "startup", "date", "stage",
-        "source_summary", "mode", "inputs", "summary", "verdict_summary",
-        "scorecard", "claims", "market_sizing", "scenarios", "risks",
-        "investability", "sources", "agents", "failures",
+        "schema_version",
+        "methodology_version",
+        "startup",
+        "date",
+        "stage",
+        "source_summary",
+        "mode",
+        "inputs",
+        "summary",
+        "verdict_summary",
+        "scorecard",
+        "claims",
+        "market_sizing",
+        "scenarios",
+        "risks",
+        "investability",
+        "sources",
+        "agents",
+        "failures",
     }
     missing = sorted(required - set(data))
     if missing:
@@ -76,7 +90,9 @@ def validate(run_dir: Path) -> list[str]:
     dimensions = scorecard.get("dimensions", [])
     names = [item.get("name") for item in dimensions]
     if names != DIMENSIONS:
-        errors.append("Scorecard must contain the five required dimensions in canonical order")
+        errors.append(
+            "Scorecard must contain the five required dimensions in canonical order"
+        )
     scores = []
     for item in dimensions:
         value = item.get("score")
@@ -89,7 +105,9 @@ def validate(run_dir: Path) -> list[str]:
     if len(scores) == 5:
         expected = round(sum(scores) / 5, 1)
         actual = scorecard.get("overall_score")
-        if not isinstance(actual, (int, float)) or not math.isclose(float(actual), expected, abs_tol=0.01):
+        if not isinstance(actual, (int, float)) or not math.isclose(
+            float(actual), expected, abs_tol=0.01
+        ):
             errors.append(f"Overall score must be {expected}, found {actual}")
         elif scorecard.get("overall_verdict") != band(float(actual)):
             errors.append(f"Score {actual} must map to {band(float(actual))}")
@@ -131,8 +149,14 @@ def validate(run_dir: Path) -> list[str]:
             errors.append(f"Claim {claim_id} has invalid issue types")
         unknown_sources = set(claim.get("source_ids", [])) - source_ids
         if unknown_sources:
-            errors.append(f"Claim {claim_id} references unknown sources: {sorted(unknown_sources)}")
-        if status == "complete" and not claim.get("deck_pages") and not claim.get("source_ids"):
+            errors.append(
+                f"Claim {claim_id} references unknown sources: {sorted(unknown_sources)}"
+            )
+        if (
+            status == "complete"
+            and not claim.get("deck_pages")
+            and not claim.get("source_ids")
+        ):
             errors.append(f"Claim {claim_id} has no deck or external citation")
     if selected > 12:
         errors.append(f"Selected {selected} formal claims; maximum is 12")
@@ -142,12 +166,19 @@ def validate(run_dir: Path) -> list[str]:
     for source in sources:
         unknown_claims = set(source.get("claim_ids", [])) - claim_ids
         if unknown_claims:
-            errors.append(f"Source {source.get('id')} references unknown claims: {sorted(unknown_claims)}")
+            errors.append(
+                f"Source {source.get('id')} references unknown claims: {sorted(unknown_claims)}"
+            )
 
     dashboard = run_dir / "dashboard.html"
     if dashboard.is_file():
         body = dashboard.read_text(encoding="utf-8")
-        for marker in ("id=\"bSimple\"", "id=\"bAdv\"", "function setView", "event.key.toLowerCase()==='a'"):
+        for marker in (
+            'id="bSimple"',
+            'id="bAdv"',
+            "function setView",
+            "event.key.toLowerCase()==='a'",
+        ):
             if marker not in body:
                 errors.append(f"Dashboard missing interaction marker: {marker}")
         if re.search(r"\{\{[A-Z_]+\}\}", body):

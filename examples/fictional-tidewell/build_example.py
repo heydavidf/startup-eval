@@ -76,14 +76,19 @@ def build_pdf() -> bytes:
     pages_id = len(objects) + 1 + 2 * len(PAGES)  # reserved after content/page pairs
     for lines in PAGES:
         stream = page_stream(lines)
-        content = add(b"<< /Length %d >>\nstream\n" % len(stream) + stream + b"\nendstream")
+        content = add(
+            b"<< /Length %d >>\nstream\n" % len(stream) + stream + b"\nendstream"
+        )
         page = add(
             b"<< /Type /Page /Parent %d 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 %d 0 R >> >> /Contents %d 0 R >>"
             % (pages_id, font, content)
         )
         page_ids.append(page)
     kids = " ".join(f"{pid} 0 R" for pid in page_ids).encode()
-    assert add(b"<< /Type /Pages /Kids [" + kids + b"] /Count %d >>" % len(page_ids)) == pages_id
+    assert (
+        add(b"<< /Type /Pages /Kids [" + kids + b"] /Count %d >>" % len(page_ids))
+        == pages_id
+    )
     catalog = add(b"<< /Type /Catalog /Pages %d 0 R >>" % pages_id)
 
     out = bytearray(b"%PDF-1.4\n")
@@ -96,7 +101,11 @@ def build_pdf() -> bytes:
     out += b"0000000000 65535 f \n"
     for offset in offsets:
         out += b"%010d 00000 n \n" % offset
-    out += b"trailer\n<< /Size %d /Root %d 0 R >>\nstartxref\n%d\n%%%%EOF\n" % (len(objects) + 1, catalog, xref)
+    out += b"trailer\n<< /Size %d /Root %d 0 R >>\nstartxref\n%d\n%%%%EOF\n" % (
+        len(objects) + 1,
+        catalog,
+        xref,
+    )
     return bytes(out)
 
 
@@ -106,14 +115,29 @@ def main() -> int:
     pdf_path = inputs / "tidewell-pitch-deck.pdf"
     pdf = build_pdf()
     pdf_path.write_bytes(pdf)
-    print(f"wrote {pdf_path.relative_to(HERE)} sha256={hashlib.sha256(pdf).hexdigest()}")
+    print(
+        f"wrote {pdf_path.relative_to(HERE)} sha256={hashlib.sha256(pdf).hexdigest()}"
+    )
 
     manifest = HERE / "run-manifest.json"
     if not manifest.is_file():
-        raise SystemExit(f"Missing {manifest}; this example needs its run-manifest.json to render the dashboard")
+        raise SystemExit(
+            f"Missing {manifest}; this example needs its run-manifest.json to render the dashboard"
+        )
     if not RENDER.is_file():
-        raise SystemExit(f"Missing {RENDER}; run this script from a complete clone of the startup-eval repository")
-    subprocess.run([sys.executable, str(RENDER), str(manifest), "--output", str(HERE / "dashboard.html")], check=True)
+        raise SystemExit(
+            f"Missing {RENDER}; run this script from a complete clone of the startup-eval repository"
+        )
+    subprocess.run(
+        [
+            sys.executable,
+            str(RENDER),
+            str(manifest),
+            "--output",
+            str(HERE / "dashboard.html"),
+        ],
+        check=True,
+    )
     return 0
 
 

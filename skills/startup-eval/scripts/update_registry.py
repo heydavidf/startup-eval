@@ -30,7 +30,9 @@ def tally(data: dict) -> dict[str, int]:
     return result
 
 
-def replace_aggregate(text: str, run_count: int, mean_refute: float, mean_score: float) -> str:
+def replace_aggregate(
+    text: str, run_count: int, mean_refute: float, mean_score: float
+) -> str:
     line = f"Runs: {run_count}. Mean refute rate: {mean_refute:.0f}%. Mean score: {mean_score:.1f}."
     return re.sub(r"Runs: \d+\. Mean refute rate:.*", line, text, count=1)
 
@@ -49,38 +51,53 @@ def main() -> int:
     root = args.root.expanduser().resolve()
     errors = validate(run_dir)
     if errors:
-        raise SystemExit("Refusing registry update; evaluation validation failed:\n- " + "\n- ".join(errors))
+        raise SystemExit(
+            "Refusing registry update; evaluation validation failed:\n- "
+            + "\n- ".join(errors)
+        )
     data = json.loads((run_dir / "run-manifest.json").read_text(encoding="utf-8"))
     counts = tally(data)
     completed = counts["confirmed"] + counts["uncertain"] + counts["refuted"]
     refute_rate = round(100 * counts["refuted"] / completed) if completed else 0
-    mix = f'{counts["confirmed"]}/{counts["uncertain"]}/{counts["refuted"]}/{counts["unverified"]}'
+    mix = f"{counts['confirmed']}/{counts['uncertain']}/{counts['refuted']}/{counts['unverified']}"
     try:
         relative = run_dir.relative_to(root)
     except ValueError:
-        raise SystemExit(f"Run directory {run_dir} is not inside the library root {root}; pass --root or set STARTUP_EVAL_ROOT")
+        raise SystemExit(
+            f"Run directory {run_dir} is not inside the library root {root}; pass --root or set STARTUP_EVAL_ROOT"
+        )
 
     index_path = root / "INDEX.md"
     index = index_path.read_text(encoding="utf-8")
     if str(relative) not in index:
-        index += f'| {data["date"]} | {data["startup"]} | {data["stage"]} | {data["mode"]} | {data["scorecard"]["overall_score"]:.1f} | {data["scorecard"]["overall_verdict"]} | {mix} | `{relative}/` |\n'
+        index += f"| {data['date']} | {data['startup']} | {data['stage']} | {data['mode']} | {data['scorecard']['overall_score']:.1f} | {data['scorecard']['overall_verdict']} | {mix} | `{relative}/` |\n"
         index_path.write_text(index, encoding="utf-8")
 
     calibration_path = root / "CALIBRATION_LOG.md"
     calibration = calibration_path.read_text(encoding="utf-8")
     marker = "## Legacy baseline (pre-contract)"
     row_marker = "<!-- CURRENT_ROWS -->"
-    row = f'| {data["date"]} | {data["startup"]} | {completed} | {counts["confirmed"]} | {counts["uncertain"]} | {counts["refuted"]} | {counts["unverified"]} | {refute_rate}% | {data["scorecard"]["overall_score"]:.1f} | TBD |\n'
+    row = f"| {data['date']} | {data['startup']} | {completed} | {counts['confirmed']} | {counts['uncertain']} | {counts['refuted']} | {counts['unverified']} | {refute_rate}% | {data['scorecard']['overall_score']:.1f} | TBD |\n"
     if str(data["startup"]) + " | " + str(completed) not in calibration:
         if row_marker not in calibration:
-            raise SystemExit(f"Calibration file is missing required marker: {row_marker}")
+            raise SystemExit(
+                f"Calibration file is missing required marker: {row_marker}"
+            )
         calibration = calibration.replace(row_marker, row + row_marker)
 
-    rows = re.findall(r"\| \d{4}-\d{2}-\d{2} \| .*? \| (\d+) \| (\d+) \| (\d+) \| (\d+) \| (\d+) \| (\d+)% \| ([\d.]+) \|", calibration.split(marker)[0])
+    rows = re.findall(
+        r"\| \d{4}-\d{2}-\d{2} \| .*? \| (\d+) \| (\d+) \| (\d+) \| (\d+) \| (\d+) \| (\d+)% \| ([\d.]+) \|",
+        calibration.split(marker)[0],
+    )
     if rows:
         refutes = [float(row_data[5]) for row_data in rows]
         scores = [float(row_data[6]) for row_data in rows]
-        calibration = replace_aggregate(calibration, len(rows), sum(refutes) / len(refutes), sum(scores) / len(scores))
+        calibration = replace_aggregate(
+            calibration,
+            len(rows),
+            sum(refutes) / len(refutes),
+            sum(scores) / len(scores),
+        )
     calibration_path.write_text(calibration, encoding="utf-8")
     print(f"Registered {data['startup']} in {root}")
     return 0
