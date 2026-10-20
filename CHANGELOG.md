@@ -2,7 +2,7 @@
 
 Notable changes to this project. Versions follow [Semantic Versioning](https://semver.org/); each release is a Git tag and a GitHub Release.
 
-## 1.0.0 (unreleased, proposed)
+## 1.0.0 (2026-10-20)
 
 The first tagged release. The skill's method, scripts and output formats are unchanged; this release changes where the skill lives so the GitHub CLI can install it, and adds automatic checks.
 
